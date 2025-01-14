@@ -1,0 +1,118 @@
+---
+title: "DD Calf Weekly Data Collection"
+subtitle: "Reference Page"
+author: "Crystal Maiden"
+format: 
+  html: 
+    theme: Cerulean
+editor: visual
+date: "`r Sys.Date()`"
+execute: 
+  eval: true
+  echo: false
+warning: false
+---
+
+Upload Data Monday so reports are up to date on Tuesday Morning
+
+HERD ID: **93247057**
+
+HERD Name: **StandardCalf**
+
+Run **ALTER\\9** before data collection - as of last weeks upload all were 0, but still needs to be checked
+
+Save New Data to: **R \> GitProjects \> DDCalf_WeeklyUploads \> DDCalf_NewData**
+
+-   Replace Existing Files: (change formatting on ID & EID columns to *number*)
+    -   DD_TOGROWR
+    -   DD_RMVD
+    -   DD_TP
+    -   DD_WEAN
+    -   DD_DZ
+        -   Once DZ data is saved, run **EVENTS\\5**, compare disease events collected to counts for current month, if any discrepancies, add appropriate number to command line, and rerun. Update command line in Zoho Task.
+        -   As of Previous weeks data, Events include: **FEVER, DIARHEA, LAME, NAVEL, PINKEYE, EARS, PNEUMON, MYCO**
+
+Once new data is saved, run "DDCalf_Weekly Data Review.qmd"
+
+```{r}
+#| warning: false
+#| echo: false
+#read in r packages
+
+library(tidyverse)
+```
+
+```{r}
+#| label: read in csv's containing previous weeks data
+DD_TOGROWR_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_TOGROWR.csv') 
+  
+DD_RMVD_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_RMVD.csv') 
+
+DD_WEAN_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_WEAN.csv')
+
+DD_TP_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_TP.csv')
+
+DD_DZ_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_DZ.csv')
+
+```
+
+```{r}
+#| label: data clean - previous weeks data
+
+DD_TOGROWR_Prev_cln <- DD_TOGROWR_Prev %>% 
+  distinct() %>% 
+  mutate(Date = as.Date(Date))
+
+DD_RMVD_Prev_cln <- DD_RMVD_Prev %>% 
+  distinct() %>% 
+  mutate(Date = as.Date(Date))
+
+DD_WEAN_Prev_cln <- DD_WEAN_Prev %>% 
+  distinct() %>% 
+  mutate(Date = as.Date(Date))
+
+DD_TP_Prev_cln <- DD_TP_Prev %>% 
+  distinct() %>% 
+  mutate(Date = as.Date(Date))
+
+DD_DZ_Prev_cln <- DD_DZ_Prev %>% 
+  distinct() %>% 
+  mutate(Date = as.Date(Date))
+
+```
+
+```{r}
+#| label: Previous Data Min and Max Dates
+
+DD_TOGROWR_PrevStart <- format(min(DD_TOGROWR_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_TOGROWR_PrevEnd <- format(max(DD_TOGROWR_Prev_cln$Date), "%m/%d/%Y")
+
+DD_RMVD_PrevStart <- format(min(DD_RMVD_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_RMVD_PrevEnd <- format(max(DD_RMVD_Prev_cln$Date), "%m/%d/%Y")
+
+DD_TP_PrevStart <- format(min(DD_TP_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_TP_PrevEnd <- format(max(DD_TP_Prev_cln$Date), "%m/%d/%Y")
+
+DD_WEAN_PrevStart <- format(min(DD_WEAN_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_WEAN_PrevEnd <- format(max(DD_WEAN_Prev_cln$Date), "%m/%d/%Y")
+
+DD_DZ_PrevStart <- format(min(DD_DZ_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_DZ_PrevEnd <- format(max(DD_DZ_Prev_cln$Date), "%m/%d/%Y")
+```
+
+## Data Uploaded Previous Week
+
+TOGROWR: **`r DD_TOGROWR_PrevStart`** to **`r DD_TOGROWR_PrevEnd`**
+
+RMVD: **`r DD_RMVD_PrevStart`** to **`r DD_RMVD_PrevEnd`**
+
+TP: **`r DD_TP_PrevStart`** to **`r DD_TP_PrevEnd`**
+
+WEAN: **`r DD_WEAN_PrevStart`** to **`r DD_WEAN_PrevEnd`**
+
+DZ: **`r DD_DZ_PrevStart`** to **`r DD_DZ_PrevEnd`**

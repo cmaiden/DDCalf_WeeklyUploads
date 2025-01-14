@@ -1,0 +1,825 @@
+---
+title: "DD Calf Weekly Data Collection"
+author: "Crystal Maiden"
+format: html
+editor: visual
+echo: false
+warning: false
+---
+
+```{r}
+#| warning: false
+#read in r packages
+
+library(tidyverse)
+library(gt)
+library(shiny)
+library(htmltools)
+```
+```{r}
+#| label: todays date
+#todays date
+
+today <- format(Sys.Date(),"%m.%d.%Y")
+```
+
+
+```{r}
+#| label: read in csv's containing previous weeks data
+
+DD_TOGROWR_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_TOGROWR.csv') 
+  
+DD_RMVD_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_RMVD.csv') 
+
+DD_WEAN_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_WEAN.csv')
+
+DD_TP_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_TP.csv')
+
+DD_DZ_Prev <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_PrevData/DD_DZ.csv')
+
+```
+
+```{r}
+#| label: data clean - previous weeks data
+
+DD_TOGROWR_Prev_cln <- DD_TOGROWR_Prev %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_RMVD_Prev_cln <- DD_RMVD_Prev %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_WEAN_Prev_cln <- DD_WEAN_Prev %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_TP_Prev_cln <- DD_TP_Prev %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_DZ_Prev_cln <- DD_DZ_Prev %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+```
+
+```{r}
+#| label: Previous Data Min and Max Dates
+
+DD_TOGROWR_PrevStart <- format(min(DD_TOGROWR_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_TOGROWR_PrevEnd <- format(max(DD_TOGROWR_Prev_cln$Date), "%m/%d/%Y")
+
+DD_RMVD_PrevStart <- format(min(DD_RMVD_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_RMVD_PrevEnd <- format(max(DD_RMVD_Prev_cln$Date), "%m/%d/%Y")
+
+DD_TP_PrevStart <- format(min(DD_TP_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_TP_PrevEnd <- format(max(DD_TP_Prev_cln$Date), "%m/%d/%Y")
+
+DD_WEAN_PrevStart <- format(min(DD_WEAN_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_WEAN_PrevEnd <- format(max(DD_WEAN_Prev_cln$Date), "%m/%d/%Y")
+
+DD_DZ_PrevStart <- format(min(DD_DZ_Prev_cln$Date),"%m/%d/%Y")
+  
+DD_DZ_PrevEnd <- format(max(DD_DZ_Prev_cln$Date), "%m/%d/%Y")
+```
+
+## Data Uploaded Previous Week
+
+TOGROWR: **`r DD_TOGROWR_PrevStart`** to **`r DD_TOGROWR_PrevEnd`**
+
+RMVD: **`r DD_RMVD_PrevStart`** to **`r DD_RMVD_PrevEnd`**
+
+TP: **`r DD_TP_PrevStart`** to **`r DD_TP_PrevEnd`**
+
+WEAN: **`r DD_WEAN_PrevStart`** to **`r DD_WEAN_PrevEnd`**
+
+DZ: **`r DD_DZ_PrevStart`** to **`r DD_DZ_PrevEnd`**
+
+```{r}
+#| label: read in csv's containing this weeks data
+
+DD_TOGROWR_New <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_NewData/DD_TOGROWR.csv') 
+  
+DD_RMVD_New <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_NewData/DD_RMVD.csv') 
+
+DD_WEAN_New <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_NewData/DD_WEAN.csv')
+
+DD_TP_New <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_NewData/DD_TP.csv')
+
+DD_DZ_New <- read.csv('~/R/GitProjects/DDCalf_weeklyUploads/DDCalf_NewData/DD_DZ.csv')
+
+```
+
+```{r}
+#| label: data clean - this weeks data
+
+DD_TOGROWR_New_cln <- DD_TOGROWR_New %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_RMVD_New_cln <- DD_RMVD_New %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_WEAN_New_cln <- DD_WEAN_New %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_TP_New_cln <- DD_TP_New %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+DD_DZ_New_cln <- DD_DZ_New %>% 
+  distinct() %>% 
+  mutate(Date = mdy(Date))
+
+```
+
+```{r}
+#| label: New Data Min and Max Dates
+
+DD_TOGROWR_NewStart <- format(min(DD_TOGROWR_New_cln$Date),"%m/%d/%Y")
+  
+DD_TOGROWR_NewEnd <- format(max(DD_TOGROWR_New_cln$Date), "%m/%d/%Y")
+
+DD_RMVD_NewStart <- format(min(DD_RMVD_New_cln$Date),"%m/%d/%Y")
+  
+DD_RMVD_NewEnd <- format(max(DD_RMVD_New_cln$Date), "%m/%d/%Y")
+
+DD_TP_NewStart <- format(min(DD_TP_New_cln$Date),"%m/%d/%Y")
+  
+DD_TP_NewEnd <- format(max(DD_TP_New_cln$Date), "%m/%d/%Y")
+
+DD_WEAN_NewStart <- format(min(DD_WEAN_New_cln$Date),"%m/%d/%Y")
+  
+DD_WEAN_NewEnd <- format(max(DD_WEAN_New_cln$Date), "%m/%d/%Y")
+
+DD_DZ_NewStart <- format(min(DD_DZ_New_cln$Date),"%m/%d/%Y")
+  
+DD_DZ_NewEnd <- format(max(DD_DZ_New_cln$Date), "%m/%d/%Y")
+```
+
+## New Data Collected this Week
+
+TOGROWR: **`r DD_TOGROWR_NewStart`** to **`r DD_TOGROWR_NewEnd`**
+
+RMVD: **`r DD_RMVD_NewStart`** to **`r DD_RMVD_NewEnd`**
+
+TP: **`r DD_TP_NewStart`** to **`r DD_TP_NewEnd`**
+
+WEAN: **`r DD_WEAN_NewStart`** to **`r DD_WEAN_NewEnd`**
+
+DZ: **`r DD_DZ_NewStart`** to **`r DD_DZ_NewEnd`**
+
+# Data Comparisons
+
+## TOGROWR
+```{r}
+#| label: TOGROWR Data Compare & Upload Data Setup
+
+#sets up TOGROWR data for comparison tables
+
+PrevTOGROWRCount <- 
+  DD_TOGROWR_Prev_cln %>% 
+    group_by(Date) %>% 
+    summarise(PrevTOGROWR = n())
+
+NewTOGROWRCount <- 
+  DD_TOGROWR_New_cln %>% 
+    group_by(Date) %>% 
+    summarise(NewTOGROWR = n())
+
+CombinedTOGROWR <-
+  full_join(PrevTOGROWRCount,NewTOGROWRCount, by = "Date") %>% 
+  mutate(Diff = PrevTOGROWR - NewTOGROWR)
+
+#sets up TOGROWR data for upload table 
+
+TOGROWR_Upload <- DD_TOGROWR_New_cln %>% 
+                    anti_join(DD_TOGROWR_Prev_cln, 
+                    join_by("ID","EID","SFID","BDAT","GNDR","Date")) %>% 
+                    mutate(Remark = case_when(is.na(Remark) ~ "",
+                                              TRUE ~ Remark),
+                           Protocols = case_when(is.na(Protocols) ~ "",
+                                                 TRUE ~ Protocols),
+                           Technician = case_when(is.na(Technician) ~ "",
+                                                  TRUE ~ Technician))
+#creates TOGROWR Upload File
+
+TOGROWR_Upload %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_UploadFiles/DD_TOGROWR_",today,".csv"),row.names = FALSE)
+
+#establish start date for TOGROWR New previous data file
+
+TOGROWR_New_Prev_StartDate <- min(TOGROWR_Upload$Date)
+
+#establish data for TOGROWR new previous data file
+
+TOGROWR_New_Prev <- DD_TOGROWR_New_cln %>% 
+                      filter(Date >= TOGROWR_New_Prev_StartDate)
+
+#creates Temporary TOGROWR Prev File
+
+TOGROWR_New_Prev %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_TOGROWR_PREV_",today,".csv"),row.names = FALSE)
+
+#formatting for TOGROWR display tables
+
+TOGROWRtable <-
+  CombinedTOGROWR %>% 
+    gt() %>% 
+      tab_header(title = "Compare")%>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_label(PrevTOGROWR = "Prev",
+                 NewTOGROWR = "New") %>% 
+      cols_align(
+        align = "center",
+        columns = everything()) %>% 
+      tab_style(
+        style = cell_text(color = "red", weight = "bold"),
+        locations = cells_body(
+        column = vars(Diff),
+        rows = Diff != 0)) %>% 
+      tab_style(
+        style = cell_text(color = "lightgrey"),
+        locations = cells_body(
+          column = vars(Diff),
+          rows = Diff == 0)) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(Diff),
+           rows = is.na(Diff))) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(PrevTOGROWR),
+           rows = is.na(PrevTOGROWR)))
+
+TOGROWR_Upload_Table <- 
+  TOGROWR_Upload %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Upload") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+TOGROWR_NewPrev_Table <- 
+  TOGROWR_New_Prev %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Prev File") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+htmltools::div(
+  htmltools::div(gt::as_raw_html(TOGROWRtable), style = "float: left; width: 35%; margin-right: 0; padding-right: 0%;"),
+  htmltools::div(gt::as_raw_html(TOGROWR_Upload_Table), style = "float: left; width: 25%; margin-left: 0; padding-left: 0%;"),
+  htmltools::div(gt::as_raw_html(TOGROWR_NewPrev_Table), style = "float: left; width: 25%; margin-right: 0; padding-right: 0%;"))
+
+```
+
+
+## RMVD
+```{r}
+#| label: RMVD Data Compare & Upload Data Setup
+
+#sets up RMVD data for comparison tables
+
+PrevRMVDCount <- 
+  DD_RMVD_Prev_cln %>% 
+    group_by(Date) %>% 
+    summarise(PrevRMVD = n())
+
+NewRMVDCount <- 
+  DD_RMVD_New_cln %>% 
+    group_by(Date) %>% 
+    summarise(NewRMVD = n())
+
+CombinedRMVD <-
+  full_join(PrevRMVDCount,NewRMVDCount, by = "Date") %>% 
+  mutate(Diff = PrevRMVD - NewRMVD)
+
+#sets up RMVD data for upload table 
+
+RMVD_Upload <- DD_RMVD_New_cln %>% 
+                    anti_join(DD_RMVD_Prev_cln, 
+                    join_by("ID","Date")) %>%                   #need to add EID back in
+                    mutate(Remark = case_when(is.na(Remark) ~ "",
+                                              TRUE ~ Remark),
+                           Protocols = case_when(is.na(Protocols) ~ "",
+                                                 TRUE ~ Protocols),
+                           Technician = case_when(is.na(Technician) ~ "",
+                                                  TRUE ~ Technician))
+#creates RMVD Upload File
+
+RMVD_Upload %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_UploadFiles/DD_RMVD_",today,".csv"),row.names = FALSE)
+
+#establish start date for RMVD New previous data file
+
+RMVD_New_Prev_StartDate <- min(RMVD_Upload$Date)
+
+#establish data for RMVD new previous data file
+
+RMVD_New_Prev <- DD_RMVD_New_cln %>% 
+                      filter(Date >= RMVD_New_Prev_StartDate)
+
+#creates Temporary RMVD Prev File
+
+RMVD_New_Prev %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_RMVD_PREV_",today,".csv"),row.names = FALSE)
+
+#formatting for RMVD display tables
+
+RMVDtable <-
+  CombinedRMVD %>% 
+    gt() %>% 
+      tab_header(title = "Compare")%>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_label(PrevRMVD = "Prev",
+                 NewRMVD = "New") %>% 
+      cols_align(
+        align = "center",
+        columns = everything()) %>% 
+      tab_style(
+        style = cell_text(color = "red", weight = "bold"),
+        locations = cells_body(
+        column = vars(Diff),
+        rows = Diff != 0)) %>% 
+      tab_style(
+        style = cell_text(color = "lightgrey"),
+        locations = cells_body(
+          column = vars(Diff),
+          rows = Diff == 0)) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(Diff),
+           rows = is.na(Diff))) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(PrevRMVD),
+           rows = is.na(PrevRMVD)))
+
+RMVD_Upload_Table <- 
+  RMVD_Upload %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Upload") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+RMVD_NewPrev_Table <- 
+  RMVD_New_Prev %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Prev File") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+htmltools::div(
+  htmltools::div(gt::as_raw_html(RMVDtable), style = "float: left; width: 35%; margin-right: 0; padding-right: 0%;"),
+  htmltools::div(gt::as_raw_html(RMVD_Upload_Table), style = "float: left; width: 25%; margin-left: 0; padding-left: 0%;"),
+  htmltools::div(gt::as_raw_html(RMVD_NewPrev_Table), style = "float: left; width: 25%; margin-right: 0; padding-right: 0%;"))
+
+```
+## TP
+```{r}
+#| label: TP Data Compare & Upload Data Setup
+
+#sets up TP data for comparison tables
+
+PrevTPCount <- 
+  DD_TP_Prev_cln %>% 
+    group_by(Date) %>% 
+    summarise(PrevTP = n())
+
+NewTPCount <- 
+  DD_TP_New_cln %>% 
+    group_by(Date) %>% 
+    summarise(NewTP = n())
+
+CombinedTP <-
+  full_join(PrevTPCount,NewTPCount, by = "Date") %>% 
+  mutate(Diff = PrevTP - NewTP)
+
+#sets up TP data for upload table 
+
+TP_Upload <- DD_TP_New_cln %>% 
+                    anti_join(DD_TP_Prev_cln, 
+                    join_by("ID","Date")) %>%                   #need to add EID back in
+                    mutate(Protocols = case_when(is.na(Protocols) ~ "",
+                                                 TRUE ~ Protocols),
+                           Technician = case_when(is.na(Technician) ~ "",
+                                                  TRUE ~ Technician))
+#creates TP Upload File
+
+TP_Upload %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_UploadFiles/DD_TP_",today,".csv"),row.names = FALSE)
+
+#establish start date for TP New previous data file
+
+TP_New_Prev_StartDate <- min(TP_Upload$Date)
+
+#establish data for TP new previous data file
+
+TP_New_Prev <- DD_TP_New_cln %>% 
+                      filter(Date >= TP_New_Prev_StartDate)
+
+#creates Temporary TP Prev File
+
+TP_New_Prev %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_TP_PREV_",today,".csv"),row.names = FALSE)
+
+#formatting for TP display tables
+
+TPtable <-
+  CombinedTP %>% 
+    gt() %>% 
+      tab_header(title = "Compare")%>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_label(PrevTP = "Prev",
+                 NewTP = "New") %>% 
+      cols_align(
+        align = "center",
+        columns = everything()) %>% 
+      tab_style(
+        style = cell_text(color = "red", weight = "bold"),
+        locations = cells_body(
+        column = vars(Diff),
+        rows = Diff != 0)) %>% 
+      tab_style(
+        style = cell_text(color = "lightgrey"),
+        locations = cells_body(
+          column = vars(Diff),
+          rows = Diff == 0)) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(Diff),
+           rows = is.na(Diff))) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(PrevTP),
+           rows = is.na(PrevTP)))
+
+TP_Upload_Table <- 
+  TP_Upload %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Upload") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+TP_NewPrev_Table <- 
+  TP_New_Prev %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Prev File") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+htmltools::div(
+  htmltools::div(gt::as_raw_html(TPtable), style = "float: left; width: 35%; margin-right: 0; padding-right: 0%;"),
+  htmltools::div(gt::as_raw_html(TP_Upload_Table), style = "float: left; width: 25%; margin-left: 0; padding-left: 0%;"),
+  htmltools::div(gt::as_raw_html(TP_NewPrev_Table), style = "float: left; width: 25%; margin-right: 0; padding-right: 0%;"))
+
+```
+## WEAN
+```{r}
+#| label: WEAN Data Compare & Upload Data Setup
+
+#sets up WEAN data for comparison tables
+
+PrevWEANCount <- 
+  DD_WEAN_Prev_cln %>% 
+    group_by(Date) %>% 
+    summarise(PrevWEAN = n())
+
+NewWEANCount <- 
+  DD_WEAN_New_cln %>% 
+    group_by(Date) %>% 
+    summarise(NewWEAN = n())
+
+CombinedWEAN <-
+  full_join(PrevWEANCount,NewWEANCount, by = "Date") %>% 
+  mutate(Diff = PrevWEAN - NewWEAN)
+
+#sets up WEAN data for upload table 
+
+WEAN_Upload <- DD_WEAN_New_cln %>% 
+                    anti_join(DD_WEAN_Prev_cln, 
+                    join_by("ID","Date")) %>%                   #need to add EID back in
+                    mutate(Protocols = case_when(is.na(Protocols) ~ "",
+                                                 TRUE ~ Protocols),
+                           Technician = case_when(is.na(Technician) ~ "",
+                                                  TRUE ~ Technician))
+#creates WEAN Upload File
+
+WEAN_Upload %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_UploadFiles/DD_WEAN_",today,".csv"),row.names = FALSE)
+
+#establish start date for WEAN New previous data file
+
+WEAN_New_Prev_StartDate <- min(WEAN_Upload$Date)
+
+#establish data for WEAN new previous data file
+
+WEAN_New_Prev <- DD_WEAN_New_cln %>% 
+                      filter(Date >= WEAN_New_Prev_StartDate)
+
+#creates Temporary WEAN Prev File
+
+WEAN_New_Prev %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_WEAN_PREV_",today,".csv"),row.names = FALSE)
+
+#formatting for WEAN display tables
+
+WEANtable <-
+  CombinedWEAN %>% 
+    gt() %>% 
+      tab_header(title = "Compare")%>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_label(PrevWEAN = "Prev",
+                 NewWEAN = "New") %>% 
+      cols_align(
+        align = "center",
+        columns = everything()) %>% 
+      tab_style(
+        style = cell_text(color = "red", weight = "bold"),
+        locations = cells_body(
+        column = vars(Diff),
+        rows = Diff != 0)) %>% 
+      tab_style(
+        style = cell_text(color = "lightgrey"),
+        locations = cells_body(
+          column = vars(Diff),
+          rows = Diff == 0)) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(Diff),
+           rows = is.na(Diff))) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(PrevWEAN),
+           rows = is.na(PrevWEAN)))
+
+WEAN_Upload_Table <- 
+  WEAN_Upload %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Upload") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+WEAN_NewPrev_Table <- 
+  WEAN_New_Prev %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Prev File") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+htmltools::div(
+  htmltools::div(gt::as_raw_html(WEANtable), style = "float: left; width: 35%; margin-right: 0; padding-right: 0%;"),
+  htmltools::div(gt::as_raw_html(WEAN_Upload_Table), style = "float: left; width: 25%; margin-left: 0; padding-left: 0%;"),
+  htmltools::div(gt::as_raw_html(WEAN_NewPrev_Table), style = "float: left; width: 25%; margin-right: 0; padding-right: 0%;"))
+
+```
+## DZ
+```{r}
+#| label: DZ Data Compare & Upload Data Setup
+
+#sets up DZ data for comparison tables
+
+PrevDZCount <- 
+  DD_DZ_Prev_cln %>% 
+    group_by(Date) %>% 
+    summarise(PrevDZ = n())
+
+NewDZCount <- 
+  DD_DZ_New_cln %>% 
+    group_by(Date) %>% 
+    summarise(NewDZ = n())
+
+CombinedDZ <-
+  full_join(PrevDZCount,NewDZCount, by = "Date") %>% 
+  mutate(Diff = PrevDZ - NewDZ)
+
+#sets up DZ data for upload table 
+
+DZ_Upload <- DD_DZ_New_cln %>% 
+                    anti_join(DD_DZ_Prev_cln, 
+                    join_by("ID","Date")) %>%                   #need to add EID back in
+                    mutate(Protocols = case_when(is.na(Protocols) ~ "",
+                                                 TRUE ~ Protocols),
+                           Technician = case_when(is.na(Technician) ~ "",
+                                                  TRUE ~ Technician))
+#creates DZ Upload File
+
+DZ_Upload %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_UploadFiles/DD_DZ_",today,".csv"),row.names = FALSE)
+
+#establish start date for DZ New previous data file
+
+DZ_New_Prev_StartDate <- min(DZ_Upload$Date)
+
+#establish data for DZ new previous data file
+
+DZ_New_Prev <- DD_DZ_New_cln %>% 
+                      filter(Date >= DZ_New_Prev_StartDate)
+
+#creates Temporary DZ Prev File
+
+DZ_New_Prev %>% 
+  write.csv(paste0("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_DZ_PREV_",today,".csv"),row.names = FALSE)
+
+#formatting for DZ display tables
+
+DZtable <-
+  CombinedDZ %>% 
+    gt() %>% 
+      tab_header(title = "Compare")%>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_label(PrevDZ = "Prev",
+                 NewDZ = "New") %>% 
+      cols_align(
+        align = "center",
+        columns = everything()) %>% 
+      tab_style(
+        style = cell_text(color = "red", weight = "bold"),
+        locations = cells_body(
+        column = vars(Diff),
+        rows = Diff != 0)) %>% 
+      tab_style(
+        style = cell_text(color = "lightgrey"),
+        locations = cells_body(
+          column = vars(Diff),
+          rows = Diff == 0)) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(Diff),
+           rows = is.na(Diff))) %>% 
+      tab_style(
+         style = cell_text(color = "lightgrey"),
+         locations = cells_body(
+           column = vars(PrevDZ),
+           rows = is.na(PrevDZ)))
+
+DZ_Upload_Table <- 
+  DZ_Upload %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Upload") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+DZ_NewPrev_Table <- 
+  DZ_New_Prev %>% 
+    group_by(Date) %>% 
+    summarise(Count = n()) %>% 
+    gt() %>% 
+      tab_header(title = "New Prev File") %>% 
+      tab_style(
+        cell_text(weight = "bold"),
+        locations = cells_title(groups = "title")) %>% 
+      fmt_date(
+        columns = Date,
+        date_style = 18) %>% 
+      cols_align(
+        align = "center",
+        columns = everything())
+
+htmltools::div(
+  htmltools::div(gt::as_raw_html(DZtable), style = "float: left; width: 35%; margin-right: 0; padding-right: 0%;"),
+  htmltools::div(gt::as_raw_html(DZ_Upload_Table), style = "float: left; width: 25%; margin-left: 0; padding-left: 0%;"),
+  htmltools::div(gt::as_raw_html(DZ_NewPrev_Table), style = "float: left; width: 25%; margin-right: 0; padding-right: 0%;"))
+
+```
+### Once all data has been uploaded, comment out final section and rerun all script. 
+```{r}
+# # creates final Previous files
+# TOGROWR_New_Prev %>%
+#   write.csv("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_TOGROWR.csv",row.names = FALSE)
+# 
+# RMVD_New_Prev %>%
+#   write.csv("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_RMVD.csv",row.names = FALSE)
+# 
+# TP_New_Prev %>%
+#   write.csv("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_TP.csv",row.names = FALSE)
+# 
+# WEAN_New_Prev %>%
+#   write.csv("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_WEAN.csv",row.names = FALSE)
+# 
+# DZ_New_Prev %>%
+#   write.csv("~/R/GitProjects/DDCalf_WeeklyUploads/DDCalf_PrevData/DD_DZ.csv",row.names = FALSE)
+```
+
